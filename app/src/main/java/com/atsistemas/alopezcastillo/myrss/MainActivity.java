@@ -5,11 +5,14 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.atsistemas.alopezcastillo.myrss.entidades.NoticiaObtenida;
 import com.atsistemas.alopezcastillo.myrss.ln.AsyncResponse;
@@ -147,6 +150,28 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menuopciones, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id==R.id.menuAcercaDe) {
+            Toast.makeText(this,R.string.menu_aboutText,Toast.LENGTH_LONG).show();
+        }
+        if (id==R.id.menuBusqueda) {
+            Toast.makeText(this,"En construcción",Toast.LENGTH_LONG).show();
+        }
+        if (id==R.id.menuOpciones) {
+            Toast.makeText(this,"En construcción",Toast.LENGTH_LONG).show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
 
 }

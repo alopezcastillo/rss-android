@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="btn_nav">OPEN IN WEB BROWSER</string>
+    <string name="app_name">My App</string>
+    <string name="menu_about">About</string>
+    <string name="menu_aboutText">Version 0.1.0 Created by Alberto López</string>
+    <string name="menu_search">Search news</string>
+    <string name="menu_options">Options</string>
 </resources>
