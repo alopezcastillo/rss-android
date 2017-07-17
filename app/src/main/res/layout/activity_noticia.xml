@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:onClick="cerrar"
     android:stretchColumns="*"
-    tools:context="com.atsistemas.alopezcastillo.myrss.Noticia">
+    tools:context="com.atsistemas.alopezcastillo.myrss.NoticiaActivity">
 
 
     <ScrollView
@@ -65,13 +65,15 @@
                 android:src="@mipmap/ic_launcher_round"></ImageView>
 
             <TextView
-                android:id="@+id/tvDesc"
+                android:id="@+id/tvDescip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:padding="5dp"
                 android:text="descripcion"
-                style="@style/MiEstilo"></TextView>
+
+                ></TextView>
+            <!-- style="@style/MiEstilo"-->
 
             <WebView
                 android:id="@+id/wvNav"

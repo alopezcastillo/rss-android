@@ -1,6 +1,7 @@
 package com.atsistemas.alopezcastillo.myrss;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
@@ -13,17 +14,19 @@ import android.widget.TextView;
 
 
 import com.atsistemas.alopezcastillo.myrss.ln.DownloadImageTask;
+import com.atsistemas.alopezcastillo.myrss.utils.Conversor;
 
 /**
  * Vista de detalle de la noticia seleccionada.
  */
-public class Noticia extends AppCompatActivity {
+public class NoticiaActivity extends AppCompatActivity {
 
 
     private TextView tvTitulo;
     private TextView tvCuerpo;
     private ImageView ivImagen;
     private WebView wvNavegador;
+
 
     private String url;
 
@@ -39,22 +42,17 @@ public class Noticia extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         String tit=   bundle.getString("titulo");
         String cue=   bundle.getString("cuerpo");
-        String ima=   bundle.getString("imagen");
+        //Bundle no utiliza Bitmap, por ello utilizamos conversión a array de bytes.
+        byte[] ima=   bundle.getByteArray("imagen");
         url = bundle.getString("url");
 
         tvTitulo = (TextView)findViewById(R.id.tvTitulo);
         ivImagen = (ImageView)findViewById(R.id.imagen);
-        tvCuerpo = (TextView)findViewById((R.id.tvDesc));
+          tvCuerpo = (TextView)findViewById((R.id.tvDescip));
         wvNavegador=(WebView)findViewById(R.id.wvNav);
-        //TableLayout tl = (TableLayout)findViewById(R.id.tlNoticia);
-       // tvTitulo.setMaxWidth(tl.getLayoutParams().width);
-       // tvCuerpo.setMaxWidth(tl.getLayoutParams().width);
-       // ivImagen.setMaxWidth(tl.getLayoutParams().width);
-
         tvTitulo.setText(tit);
         tvCuerpo.setText(cue);
-        new DownloadImageTask(ivImagen).execute(ima);
-
+        ivImagen.setImageBitmap(Conversor.getImage(ima));
 
     }
 
@@ -68,13 +66,10 @@ public class Noticia extends AppCompatActivity {
         finish();
     }
 
-
+    /*Abre el navegador web con la url indicada */
     public void irNavegador(View view)
     {
         wvNavegador.loadUrl(url);
-       // Intent i = new Intent(this, NavegadorActivity.class );
 
-      //  i.putExtra("url", url);
-      //  startActivity(i);
     }
 }

@@ -3,12 +3,16 @@ package com.atsistemas.alopezcastillo.myrss.ln;
 import android.util.Xml;
 
 import com.atsistemas.alopezcastillo.myrss.entidades.NoticiaObtenida;
+import com.atsistemas.alopezcastillo.myrss.utils.Constantes;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -44,6 +48,22 @@ public class RssParser {
                     nt.setTitulo(parser.getText());
                     System.out.println("<title>"+parser.getText()+"</title>");
                 }
+                else if(parser.getName().equals("pubDate"))
+                {
+                    eventType = parser.next();
+                    String fecha = parser.getText();
+                    SimpleDateFormat sdf = new SimpleDateFormat(Constantes.FORMATO_FECHA);
+                    Date c= null;
+                    try {
+                        c = sdf.parse(fecha);
+                    } catch (ParseException e) {
+                        System.out.println("LOG: Error parseo fecha "+fecha);
+                        c= new Date();
+                        e.printStackTrace();
+                    }
+                    nt.setFecha(c);
+                    System.out.println("<pubDate>"+parser.getText()+"</pubDate>");
+                }
                 else if(parser.getName().equals("link"))
                 {
                     eventType = parser.next();
@@ -74,6 +94,7 @@ public class RssParser {
                     }
 
                     System.out.println("<description>"+parser.getText()+"</description>");
+
                     if(nt.getCuerpo()!=null) retorno.add(nt);
                 }
 

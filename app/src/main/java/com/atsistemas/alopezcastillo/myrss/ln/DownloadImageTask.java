@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.atsistemas.alopezcastillo.myrss.entidades.NoticiaObtenida;
+
 import java.io.InputStream;
 
 /**
@@ -17,10 +19,15 @@ import java.io.InputStream;
 public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 
     ImageView bmImage;
+    NoticiaObtenida no;
 
-    public DownloadImageTask(ImageView bmImage) {
+
+    public DownloadImageTask(ImageView bmImage, NoticiaObtenida no) {
         this.bmImage = bmImage;
+        this.no =no;
     }
+
+
 
     protected Bitmap doInBackground(String... urls) {
         String urldisplay = urls[0];
@@ -36,6 +43,9 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
     }
 
     protected void onPostExecute(Bitmap result) {
+        //Setea la imagen obtenida en los objetos pasados al constructor como parámetros
         bmImage.setImageBitmap(result);
+        no.setImagen(result);
+
     }
 }

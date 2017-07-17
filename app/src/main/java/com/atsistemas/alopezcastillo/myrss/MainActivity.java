@@ -18,7 +18,9 @@ import com.atsistemas.alopezcastillo.myrss.entidades.NoticiaObtenida;
 import com.atsistemas.alopezcastillo.myrss.ln.AsyncResponse;
 import com.atsistemas.alopezcastillo.myrss.ln.Conexiones;
 import com.atsistemas.alopezcastillo.myrss.ln.DownloadImageTask;
+import com.atsistemas.alopezcastillo.myrss.servicio.ServicioSQLite;
 import com.atsistemas.alopezcastillo.myrss.utils.Constantes;
+import com.atsistemas.alopezcastillo.myrss.utils.Conversor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,9 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
     List<NoticiaObtenida> listaNoticias = new ArrayList<NoticiaObtenida>();
     TableLayout tablaNoticias = null;
+    ServicioSQLite servicioBD ;
+    //indicador de estado de la conexión
+    boolean conexion =true;
 
     Conexiones con = new Conexiones();
 
@@ -38,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        servicioBD = new ServicioSQLite(this);
         tablaNoticias = (TableLayout)findViewById(R.id.tablaNoticias);
 
         con.delegate =this;
@@ -51,9 +57,6 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         super.onStart();
        // SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        //ssssss
-
-
     }
 
     /**
@@ -63,10 +66,11 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     public void navegar(int id)
 
     {
-        Intent i = new Intent(this, Noticia.class );
+        Intent i = new Intent(this, NoticiaActivity.class );
 
         i.putExtra("titulo", listaNoticias.get(id).getTitulo());
-        i.putExtra("imagen", listaNoticias.get(id).getLinkImagen());
+        //Convertimos a imagen a array de bytes
+        i.putExtra("imagen", Conversor.getBytes(listaNoticias.get(id).getImagen()));
         i.putExtra("cuerpo", listaNoticias.get(id).getCuerpo());
         i.putExtra("url",listaNoticias.get(id).getLinkNoticia());
         startActivity(i);
@@ -81,6 +85,17 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     public void processFinish(final List<NoticiaObtenida> noticiasObtenidas) {
 
         listaNoticias=noticiasObtenidas;
+
+     /*   //Si hemos obtenido noticias las guardamos. Si no buscamos en bbdd las ultimas.
+        ServicioSQLite servicioBD = new ServicioSQLite(this);
+        if(null!=noticiasObtenidas && noticiasObtenidas.size()>0)
+        {servicioBD.noticiasAlta(listaNoticias);}
+        else*/
+        if(null==noticiasObtenidas || noticiasObtenidas.isEmpty())
+        {
+            conexion=false;
+         listaNoticias= servicioBD.noticiasObtenerUltimas();
+            Toast.makeText(this,R.string.alert_no_news,Toast.LENGTH_LONG).show();}
 
         //Inicialización dinámica de la tabla de noticias
         tablaNoticias.setStretchAllColumns(true);
@@ -132,9 +147,13 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             c3.setId(i*100+3);
             c3.setOnClickListener(miEvento);
 
-            //Recuperación asíncrona de la imagen
-            new DownloadImageTask (c2).execute(listaNoticias.get(i).getLinkImagen());
-
+            //Recuperación asíncrona de la imagen si hay conexión
+            if(conexion)
+            {new DownloadImageTask (c2,listaNoticias.get(i)).execute(listaNoticias.get(i).getLinkImagen());
+            }
+            else{//imagen de bbdd
+                c2.setImageBitmap(listaNoticias.get(i).getImagen());
+            }
             c1.setText(listaNoticias.get(i).getTitulo());
             c3.setText(listaNoticias.get(i).getDesc());
             //ajustamos el ancho máximo forzando a dividirse en filas si no cabe en una.
@@ -168,6 +187,12 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         }
         if (id==R.id.menuOpciones) {
             Toast.makeText(this,"En construcción",Toast.LENGTH_LONG).show();
+        }if (id==R.id.menuGuardar) {
+
+            //Si hemos obtenido noticias las guardamos.
+            ServicioSQLite servicioBD = new ServicioSQLite(this);
+            if(null!=listaNoticias && listaNoticias.size()>0)
+            {servicioBD.noticiasAlta(listaNoticias);}
         }
         return super.onOptionsItemSelected(item);
     }

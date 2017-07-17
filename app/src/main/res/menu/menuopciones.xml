@@ -13,6 +13,10 @@
         android:visible="true"
         app:showAsAction="always" />
     <item
+        android:id="@+id/menuGuardar"
+        android:title="@string/menu_guardar" />
+    <item
         android:id="@+id/menuAcercaDe"
         android:title="@string/menu_about" />
+
 </menu>
