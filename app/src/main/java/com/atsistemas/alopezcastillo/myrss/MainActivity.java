@@ -23,6 +23,7 @@ import com.atsistemas.alopezcastillo.myrss.utils.Constantes;
 import com.atsistemas.alopezcastillo.myrss.utils.Conversor;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,7 +32,11 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
 
-    List<NoticiaObtenida> listaNoticias = new ArrayList<NoticiaObtenida>();
+    /** Listado de noticias recuperadas.*/
+    List<NoticiaObtenida> noticiasRecuperadas = new ArrayList<NoticiaObtenida>();
+    /**Noticias a mostrar en pantalla, pueden ser las recuperadas o un filtro de ellas.*/
+    List<NoticiaObtenida> noticiasMostrar = new ArrayList<NoticiaObtenida>();
+    boolean filtro=false;
     TableLayout tablaNoticias = null;
     ServicioSQLite servicioBD ;
     //indicador de estado de la conexión
@@ -68,11 +73,13 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     {
         Intent i = new Intent(this, NoticiaActivity.class );
 
-        i.putExtra("titulo", listaNoticias.get(id).getTitulo());
+
+
+        i.putExtra("titulo", noticiasMostrar.get(id).getTitulo());
         //Convertimos a imagen a array de bytes
-        i.putExtra("imagen", Conversor.getBytes(listaNoticias.get(id).getImagen()));
-        i.putExtra("cuerpo", listaNoticias.get(id).getCuerpo());
-        i.putExtra("url",listaNoticias.get(id).getLinkNoticia());
+        i.putExtra("imagen", Conversor.getBytes(noticiasMostrar.get(id).getImagen()));
+        i.putExtra("cuerpo", noticiasMostrar.get(id).getCuerpo());
+        i.putExtra("url",noticiasMostrar.get(id).getLinkNoticia());
         startActivity(i);
     }
 
@@ -84,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     @Override
     public void processFinish(final List<NoticiaObtenida> noticiasObtenidas) {
 
-        listaNoticias=noticiasObtenidas;
+        noticiasRecuperadas=noticiasObtenidas;
 
      /*   //Si hemos obtenido noticias las guardamos. Si no buscamos en bbdd las ultimas.
         ServicioSQLite servicioBD = new ServicioSQLite(this);
@@ -94,14 +101,24 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         if(null==noticiasObtenidas || noticiasObtenidas.isEmpty())
         {
             conexion=false;
-         listaNoticias= servicioBD.noticiasObtenerUltimas();
+            noticiasRecuperadas= servicioBD.noticiasObtenerUltimas();
+          //  servicioBD.noticiasBorraTodo();
             Toast.makeText(this,R.string.alert_no_news,Toast.LENGTH_LONG).show();}
+        if(!filtro)
+        {noticiasMostrar.addAll(noticiasRecuperadas);}
+        formaTablaNoticias(noticiasRecuperadas);
 
+
+    }
+
+    private void formaTablaNoticias(List<NoticiaObtenida> noticiasObtenidas)
+    {
+        tablaNoticias.removeAllViews();
         //Inicialización dinámica de la tabla de noticias
-        tablaNoticias.setStretchAllColumns(true);
-        tablaNoticias.bringToFront();
+      //  tablaNoticias.setStretchAllColumns(true);
+        //    tablaNoticias.bringToFront();
 
-        for(int i = 0; i < listaNoticias.size(); i++){
+        for(int i = 0; i < noticiasObtenidas.size(); i++){
             TableRow tr1 =  new TableRow(this);
             TableRow tr2 =  new TableRow(this);
             TableRow tr3 =  new TableRow(this);
@@ -127,9 +144,9 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             ImageView c2 = new ImageView(this);
             TextView c3 = new TextView(this);
             //Incluimos un evento onclick a los componentes de la tabla
-             View.OnClickListener miEvento = new View.OnClickListener() {
+            View.OnClickListener miEvento = new View.OnClickListener() {
 
-                 //Evento lanzado al hacer click en el elemento, enviando como parámetro la posición de la lista que nos indicará a qué noticia pertenece
+                //Evento lanzado al hacer click en el elemento, enviando como parámetro la posición de la lista que nos indicará a qué noticia pertenece
                 @Override
                 public void onClick(View v) {
                     int id =  v.getId();
@@ -149,13 +166,13 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
             //Recuperación asíncrona de la imagen si hay conexión
             if(conexion)
-            {new DownloadImageTask (c2,listaNoticias.get(i)).execute(listaNoticias.get(i).getLinkImagen());
+            {new DownloadImageTask (c2,noticiasObtenidas.get(i)).execute(noticiasObtenidas.get(i).getLinkImagen());
             }
             else{//imagen de bbdd
-                c2.setImageBitmap(listaNoticias.get(i).getImagen());
+                c2.setImageBitmap(noticiasObtenidas.get(i).getImagen());
             }
-            c1.setText(listaNoticias.get(i).getTitulo());
-            c3.setText(listaNoticias.get(i).getDesc());
+            c1.setText(noticiasObtenidas.get(i).getTitulo());
+            c3.setText(noticiasObtenidas.get(i).getDesc());
             //ajustamos el ancho máximo forzando a dividirse en filas si no cabe en una.
             c3.setMaxWidth(tr3.getLayoutParams().width);
 
@@ -166,8 +183,6 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             tablaNoticias.addView(tr2);
             tablaNoticias.addView(tr3);
         }
-
-
     }
 
     @Override
@@ -183,7 +198,12 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             Toast.makeText(this,R.string.menu_aboutText,Toast.LENGTH_LONG).show();
         }
         if (id==R.id.menuBusqueda) {
-            Toast.makeText(this,"En construcción",Toast.LENGTH_LONG).show();
+
+
+
+            Intent i = new Intent(this,BuscadorActivity.class);
+            startActivityForResult(i, Constantes.COD_ACT_BUSCADOR);//100 identifiacará la actividad buscador
+
         }
         if (id==R.id.menuOpciones) {
             Toast.makeText(this,"En construcción",Toast.LENGTH_LONG).show();
@@ -191,10 +211,43 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
             //Si hemos obtenido noticias las guardamos.
             ServicioSQLite servicioBD = new ServicioSQLite(this);
-            if(null!=listaNoticias && listaNoticias.size()>0)
-            {servicioBD.noticiasAlta(listaNoticias);}
+            if(null!=noticiasMostrar && noticiasMostrar.size()>0)
+            {servicioBD.noticiasAlta(noticiasMostrar);}
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (Constantes.COD_ACT_BUSCADOR) : {//activity buscador
+                if (resultCode == Constantes.COD_FILTRO) {
+                    filtro=true;
+                    Bundle bundle = data.getExtras();
+                    String tit=   bundle.get("titular").toString();
+                    String cue =(String) bundle.get("cuerpo").toString();
+                    long fec =(long)bundle.get("fechaId");
+                    List<NoticiaObtenida> noticiasObtenidas=  servicioBD.noticiasObtenerBuscador(tit,cue,fec);
+                    noticiasMostrar=noticiasObtenidas;
+                    formaTablaNoticias(noticiasMostrar);
+                }
+                else
+                {
+                    filtro=false;
+                    noticiasMostrar.clear();
+                    noticiasMostrar.addAll(noticiasRecuperadas);
+                    formaTablaNoticias(noticiasMostrar);
+
+                }
+                break;
+
+            }
+        }
+
+
     }
 
 

@@ -48,7 +48,7 @@ public class NoticiaActivity extends AppCompatActivity {
 
         tvTitulo = (TextView)findViewById(R.id.tvTitulo);
         ivImagen = (ImageView)findViewById(R.id.imagen);
-          tvCuerpo = (TextView)findViewById((R.id.tvDescip));
+        tvCuerpo = (TextView)findViewById((R.id.tvDescip));
         wvNavegador=(WebView)findViewById(R.id.wvNav);
         tvTitulo.setText(tit);
         tvCuerpo.setText(cue);
@@ -69,7 +69,9 @@ public class NoticiaActivity extends AppCompatActivity {
     /*Abre el navegador web con la url indicada */
     public void irNavegador(View view)
     {
+
         wvNavegador.loadUrl(url);
 
     }
+
 }

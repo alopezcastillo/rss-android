@@ -8,5 +8,9 @@
     <string name="menu_search">Search news</string>
     <string name="menu_options">Options</string>
     <string name="menu_guardar">Save news</string>
+    <string name="buscar_titular">Search in headline:</string>
+    <string name="buscar_noticia">Search in the body:</string>
+    <string name="buscar_fecha">Show only newer than:</string>
+
 
 </resources>

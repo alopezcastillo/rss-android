@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.atsistemas.alopezcastillo.myrss.BuscadorActivity">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/imageButton2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="buscar"
+                    app:srcCompat="@android:drawable/ic_menu_search" />
+
+                <ImageButton
+                    android:id="@+id/imageButton3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="cerrar"
+                    app:srcCompat="@android:drawable/ic_delete" />
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/cbTitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/buscar_titular" />
+
+            <EditText
+                android:id="@+id/etTitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text" />
+
+            <CheckBox
+                android:id="@+id/cbCuerpo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/buscar_noticia" />
+
+            <EditText
+                android:id="@+id/etCuerpo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text" />
+
+
+            <CheckBox
+                android:id="@+id/cbFecha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/buscar_fecha" />
+
+
+            <DatePicker
+                android:id="@+id/dpFecha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/etFecha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class NoticiaObtenida implements Serializable {
 
-    private int id;
+    private long id;
     private String titulo;
     private String desc;
     private String cuerpo;
@@ -20,7 +20,7 @@ public class NoticiaObtenida implements Serializable {
     private Bitmap imagen;
     private Date fecha;
 
-    public NoticiaObtenida(int id, String titulo, String desc, String cuerpo, String linkImagen, String linkNoticia, Bitmap img, Date fecha) {
+    public NoticiaObtenida(long id, String titulo, String desc, String cuerpo, String linkImagen, String linkNoticia, Bitmap img, Date fecha) {
         this.id =id;
         this.titulo = titulo;
         this.desc = desc;
@@ -76,9 +76,9 @@ public class NoticiaObtenida implements Serializable {
 
     public void setImagen(Bitmap imagen) {   this.imagen = imagen;   }
 
-    public int getId() {    return id;   }
+    public long getId() {    return id;   }
 
-    public void setId(int id) {       this.id = id;    }
+    public void setId(long id) {       this.id = id;    }
 
     public Date getFecha() {   return fecha;   }
 

@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".NoticiaActivity" />
-
+        <activity android:name=".BuscadorActivity"></activity>
     </application>
 
 </manifest>

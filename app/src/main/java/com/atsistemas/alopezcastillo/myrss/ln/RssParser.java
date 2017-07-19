@@ -37,6 +37,13 @@ public class RssParser {
             if(eventType == XmlPullParser.START_DOCUMENT) {
                 System.out.println("Start document");
             } else if(eventType == XmlPullParser.START_TAG) {
+                /*System.out.println("*** NAME ***"+parser.getName());
+
+                eventType = parser.next();
+                System.out.println("***** TEXT *****"+parser.getText());*/
+
+
+
                 if (parser.getName().equals("item"))
                 {
                     nt = new NoticiaObtenida();
@@ -98,11 +105,7 @@ public class RssParser {
                     if(nt.getCuerpo()!=null) retorno.add(nt);
                 }
 
-            }// else if(eventType == XmlPullParser.END_TAG) {
-             //   System.out.println("End tag >"+parser.getName());
-          //  } //else if(eventType == XmlPullParser.TEXT) {
-             //   System.out.println("Text :"+parser.getText());
-            //}
+            }
             eventType = parser.next();
         }
         System.out.println("End document");

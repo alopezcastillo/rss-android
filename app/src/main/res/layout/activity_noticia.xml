@@ -46,17 +46,8 @@
 
             <TextView
                 android:id="@+id/tvTitulo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@android:color/holo_blue_dark"
-                android:padding="5dp"
-                android:text="titulo"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:typeface="serif"></TextView>
+                style="@style/MiEstiloTitular"
+                ></TextView>
 
             <ImageView
                 android:id="@+id/imagen"
@@ -64,16 +55,12 @@
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_launcher_round"></ImageView>
 
+
             <TextView
                 android:id="@+id/tvDescip"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:padding="5dp"
-                android:text="descripcion"
-
+                style="@style/MiEstiloDescripcion"
                 ></TextView>
-            <!-- style="@style/MiEstilo"-->
+
 
             <WebView
                 android:id="@+id/wvNav"

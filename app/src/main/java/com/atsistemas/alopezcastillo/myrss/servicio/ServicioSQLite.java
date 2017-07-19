@@ -4,7 +4,9 @@ import android.content.Context;
 
 import com.atsistemas.alopezcastillo.myrss.DAO.TablaNoticias;
 import com.atsistemas.alopezcastillo.myrss.entidades.NoticiaObtenida;
+import com.atsistemas.alopezcastillo.myrss.utils.Constantes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -42,8 +44,13 @@ public class ServicioSQLite {
     public List<NoticiaObtenida> noticiasObtenerUltimas()
     {
         System.out.println("LOG: obteniendo 10 últimas noticias");
-        List<NoticiaObtenida> retorno = tablaNoticias.consultaNoticias(10);
+        List<NoticiaObtenida> retorno = tablaNoticias.consultaNoticias(Constantes.LIMITE_NOTICIAS);
         return  retorno;
+    }
+
+    public List<NoticiaObtenida>noticiasObtenerBuscador( String tit, String bod, long timeId){
+        List<NoticiaObtenida> retorno = tablaNoticias.consultaNoticiasBuscador(Constantes.LIMITE_NOTICIAS,  tit,  bod,  timeId);
+        return retorno;
     }
 }
 

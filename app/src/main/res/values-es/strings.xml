@@ -8,4 +8,7 @@
     <string name="menu_search">Buscar noticia</string>
     <string name="menu_options">Opciones</string>
     <string name="menu_guardar">Guardar noticias</string>
+    <string name="buscar_titular">Buscar en titular:</string>
+    <string name="buscar_noticia">Buscar en el cuerpo de la noticia:</string>
+    <string name="buscar_fecha">Mostrar sólo posteriores a:</string>
 </resources>

@@ -70,25 +70,6 @@ public class Conexiones  extends AsyncTask  {
 
 
 
-       /* @Override
-        protected String doInBackground(String... urls) {
-            try {
-                return loadXmlFromNetwork(urls[0]);
-            } catch (IOException e) {
-                System.out.println(e.getCause());
-                return (null);
-                //   return getResources().getString(R.string.connection_error);
-            } catch (XmlPullParserException e) {
-                System.out.println(e.getCause());
-                return null;
-                //    return getResources().getString(R.string.xml_error);
-            }
-        }
-    @Override
-    protected void onPostExecute(String result) {
-        MainActivity
-        myWebView.loadData(result, "text/html", null);
-    }*/
 
     public List<NoticiaObtenida> loadXmlFromNetwork(String urlString) throws XmlPullParserException, IOException {
        // Conexiones conexiones = new Conexiones();
