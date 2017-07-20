@@ -37,6 +37,7 @@
                     android:layout_weight="1"
                     android:onClick="cerrar"
                     app:srcCompat="@android:drawable/ic_delete" />
+
             </LinearLayout>
 
             <CheckBox

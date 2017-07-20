@@ -20,17 +20,14 @@
     </style>
 
     <style name="MiEstiloTitular" parent="MiEstilo">
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:typeface">sans</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:background">@color/colorPrimary</item>
-    </style>
-    <style name="MiEstiloDescripcion" parent="MiEstilo">
-        <item name="android:textColor">@android:color/tertiary_text_dark</item>
-        <item name="android:textSize">14sp</item>
-    </style>
+            <item name="android:textColor">@android:color/white</item>
+            <item name="android:typeface">sans</item>
+            <item name="android:textSize">25sp</item>
+            <item name="android:background">@color/colorPrimary</item>
+        </style>
+        <style name="MiEstiloDescripcion" parent="MiEstilo">
+            <item name="android:textColor">@android:color/tertiary_text_dark</item>
+            <item name="android:textSize">23sp</item>
+        </style>
 
-
-
-
-</resources>
+    </resources>

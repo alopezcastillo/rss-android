@@ -7,7 +7,8 @@ package com.atsistemas.alopezcastillo.myrss.utils;
 public  class Constantes {
 
     // "http://www.xatakandroid.com/tag/feeds/rss2.xml"; "dd-MM-yy HH:mm:SS";
-    //https://elpais.com/tag/rss/libros/a/  "EEE, MMM d HH:mm:ss zzz yyyy",Locale.ENGLISH  <pubDate>Fri, 7 Jul 2017 16:44:24 +0200</pubDate>
+   // https://www.xatakandroid.com/tag/feeds/rss2.xml
+   // https://www.xatakandroid.com/tag/rss/rss2.xmlhttps://www.xataka.com/tag/android/rss2.xml
     public static final String URL ="https://www.xatakandroid.com/tag/feeds/rss2.xml";
     // FORMATOS COMUNES
     //     "yyyy.MM.dd G 'at' HH:mm:ss z" 	2001.07.04 AD at 12:08:56 PDT

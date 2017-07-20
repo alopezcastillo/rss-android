@@ -3,8 +3,13 @@ package com.atsistemas.alopezcastillo.myrss;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     boolean conexion =true;
 
     Conexiones con = new Conexiones();
+    private int backgroundColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,9 +120,8 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     private void formaTablaNoticias(List<NoticiaObtenida> noticiasObtenidas)
     {
         tablaNoticias.removeAllViews();
-        //Inicialización dinámica de la tabla de noticias
-      //  tablaNoticias.setStretchAllColumns(true);
-        //    tablaNoticias.bringToFront();
+        tablaNoticias.setStretchAllColumns(true);
+
 
         for(int i = 0; i < noticiasObtenidas.size(); i++){
             TableRow tr1 =  new TableRow(this);
@@ -126,7 +131,9 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
                     new TableLayout.LayoutParams
                             (TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
             tableRowParamsTop.setMargins(10, 15, 10, 5);
-            tr1.setBackgroundColor(Color.BLUE);
+           // valido api 23+ getColor(R.color.colorOtro);
+            int color= ContextCompat.getColor(this, R.color.colorPrimary);
+            tr1.setBackgroundColor(color);
             TableLayout.LayoutParams tableRowParams=
                     new TableLayout.LayoutParams
                             (TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
@@ -136,12 +143,17 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             tr3.setLayoutParams(tableRowParams);
 
             TextView c1 = new TextView(this);
-            c1.setTypeface(null, Typeface.BOLD);
-            c1.setTextColor(Color.WHITE);
-            c1.setPadding(5,1,2,1);
-            c1.setMaxWidth(tr1.getLayoutParams().width);
 
+
+            //c1.setTypeface(null, Typeface.BOLD);
+           // c1.setTextColor(Color.WHITE);
+            //c1.setPadding(5,1,2,1);
+            c1.setMaxWidth(tr1.getLayoutParams().width);
+            //c1.setTextAppearance(R.style.MiEstiloTitular);
+            //Deprecado en API 23 pero su sustituto no es compatible con API 19 KitKat
+            c1.setTextAppearance(this, R.style.MiEstiloTitular);
             ImageView c2 = new ImageView(this);
+
             TextView c3 = new TextView(this);
             //Incluimos un evento onclick a los componentes de la tabla
             View.OnClickListener miEvento = new View.OnClickListener() {
@@ -171,11 +183,15 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             else{//imagen de bbdd
                 c2.setImageBitmap(noticiasObtenidas.get(i).getImagen());
             }
+            c2.setAdjustViewBounds(true);
+
+
             c1.setText(noticiasObtenidas.get(i).getTitulo());
             c3.setText(noticiasObtenidas.get(i).getDesc());
             //ajustamos el ancho máximo forzando a dividirse en filas si no cabe en una.
             c3.setMaxWidth(tr3.getLayoutParams().width);
-
+            //Deprecado en API 23 pero su sustituto no es compatible con API 19 KitKat
+            c3.setTextAppearance(this, R.style.MiEstiloDescripcion);
             tr1.addView(c1);
             tr2.addView(c2);
             tr3.addView(c3);
@@ -198,9 +214,6 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             Toast.makeText(this,R.string.menu_aboutText,Toast.LENGTH_LONG).show();
         }
         if (id==R.id.menuBusqueda) {
-
-
-
             Intent i = new Intent(this,BuscadorActivity.class);
             startActivityForResult(i, Constantes.COD_ACT_BUSCADOR);//100 identifiacará la actividad buscador
 
@@ -214,6 +227,8 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             if(null!=noticiasMostrar && noticiasMostrar.size()>0)
             {servicioBD.noticiasAlta(noticiasMostrar);}
         }
+        //Xml a = "";
+
         return super.onOptionsItemSelected(item);
     }
 
